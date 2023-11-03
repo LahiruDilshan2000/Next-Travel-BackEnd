@@ -1,0 +1,61 @@
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
+      routes:
+        - id: identity-service
+          uri: lb://IDENTITY-SERVICE
+          predicates:
+            - Path=/nexttravel/api/v1/auth/**
+          filters:
+            - AuthenticationFilter
+
+        - id: vehicle-service
+          uri: lb://VEHICLE-SERVICE
+          predicates:
+            - Path=/nexttravel/api/v1/vehicle/**
+          filters:
+            - AuthenticationFilter
+
+        - id: hotel-service
+          uri: lb://HOTEL-SERVICE
+          predicates:
+            - Path=/nexttravel/api/v1/hotel/**
+          filters:
+            - AuthenticationFilter
+
+        - id: guide-service
+          uri: lb://GUIDE-SERVICE
+          predicates:
+            - Path=/nexttravel/api/v1/guide/**
+          filters:
+            - AuthenticationFilter
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/nexttravel/api/v1/user/**
+          filters:
+            - AuthenticationFilter
+
+        - id: package-service
+          uri: lb://PACKAGE-SERVICE
+          predicates:
+            - Path=/nexttravel/api/v1/package/**
+          filters:
+            - AuthenticationFilter
+
+        - id: package-service
+          uri: lb://FINANCIAL-SERVICE
+          predicates:
+            - Path=/nexttravel/api/v1/financial/**
+          filters:
+            - AuthenticationFilter
